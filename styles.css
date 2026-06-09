@@ -1,0 +1,300 @@
+/* --- Global Styles --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #1e1e24;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+  color: #4dadff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* --- Session Info --- */
+#session {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 20px;
+  background: #2a2a35;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #3f3f50;
+}
+
+/* --- Top Action Buttons Container --- */
+.actions {
+  display: flex;
+  gap: 10px; /* Puts a clean gap between Join and Create */
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+}
+
+.actions button {
+  flex: 1; /* Forces both buttons to split the width 50/50 */
+  background-color: #3a3a4a;
+  color: #fff;
+  border: 1px solid #55556d;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.actions button:hover {
+  background-color: #4a4a5a;
+  border-color: #71718f;
+}
+
+/* --- Chat Container --- */
+#chat {
+  width: 100%;
+  max-width: 400px;
+  height: 350px;
+  background-color: #121216;
+  border: 1px solid #2a2a35;
+  border-radius: 12px;
+  padding: 15px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scroll-behavior: smooth;
+}
+
+#chat p {
+  background: #252530;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: fit-content;
+  max-width: 85%;
+  line-height: 1.4;
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+/* --- Input Area --- */
+#name {
+  width: 100%;
+  max-width: 400px;
+  background-color: #252530;
+  border: 1px solid #3f3f50;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+#name:focus,
+#msg:focus {
+  outline: none;
+  border-color: #4dadff;
+  box-shadow: 0 0 0 2px rgba(77, 173, 255, 0.2);
+}
+
+#msg {
+  width: 100%;
+  max-width: 400px;
+  height: 80px;
+  background-color: #252530;
+  border: 1px solid #3f3f50;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  resize: none;
+  margin-bottom: 10px;
+}
+
+/* --- Main Send Button --- */
+#sendmsg {
+  width: 100%;
+  max-width: 400px;
+  background-color: #4dadff;
+  color: #121216;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#sendmsg:hover {
+  background-color: #6ebcff;
+  transform: translateY(-1px);
+}
+
+#sendmsg:active {
+  transform: translateY(1px);
+}
+
+/* --- Fixed Footer --- */
+#footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #121216;
+  border-top: 1px solid #2a2a35;
+  padding: 12px;
+  text-align: center;
+  z-index: 1000;
+}
+
+#footer p {
+  color: #aaa;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+body {
+  padding-bottom: 60px; /* Buffer so components don't slip under the footer */
+}
+
+/* --- Scrollbar Customization --- */
+#chat::-webkit-scrollbar {
+  width: 6px;
+}
+
+#chat::-webkit-scrollbar-track {
+  background: #121216;
+}
+
+#chat::-webkit-scrollbar-thumb {
+  background: #3f3f50;
+  border-radius: 3px;
+}
+
+#chat::-webkit-scrollbar-thumb:hover {
+  background: #55556d;
+}
+
+/* --- Updated Resizable Admin Panel (Matching Blue Theme) --- */
+#AdminPanel {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  width: 260px;
+  height: 500px;
+  background-color: #1a1a22;
+  border: 1px solid #3f3f50; /* Muted border matching the layout */
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 2000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  resize: both;
+  min-width: 200px;
+  min-height: 180px;
+  max-width: 500px;
+  max-height: 750px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#AdminPanel h2 {
+  color: #4dadff; /* Theme Blue */
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+/* Style the internal alert textbox */
+#alert {
+  width: 100%;
+  height: 60px;
+  background-color: #252530;
+  border: 1px solid #3f3f50;
+  color: #fff;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  resize: none;
+}
+
+#alert:focus {
+  outline: none;
+  border-color: #4dadff; /* Blue glow on focus */
+  box-shadow: 0 0 0 2px rgba(77, 173, 255, 0.2);
+}
+
+/* Style the admin send button */
+#sendalrt {
+  background-color: #3a3a4a; /* Matching your top action buttons style */
+  color: #fff;
+  border: 1px solid #55556d;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+#sendalrt:hover {
+  background-color: #4a4a5a;
+  border-color: #71718f;
+}
+
+/* Style the internal alert textbox */
+#info {
+  width: 100%;
+  height: 60px;
+  background-color: #252530;
+  border: 1px solid #3f3f50;
+  color: #fff;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  resize: none;
+}
+
+#info:focus {
+  outline: none;
+  border-color: #4dadff; /* Blue glow on focus */
+  box-shadow: 0 0 0 2px rgba(77, 173, 255, 0.2);
+}
+
+/* Style the admin send button */
+#sendinfo {
+  background-color: #3a3a4a; /* Matching your top action buttons style */
+  color: #fff;
+  border: 1px solid #55556d;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+#sendinfo:hover {
+  background-color: #4a4a5a;
+  border-color: #71718f;
+}
