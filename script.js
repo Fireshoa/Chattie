@@ -1,11 +1,20 @@
 let conn;
 let hosting = false;
 let clients = [];
+let username = ""
 function createRoom(newid) {
   document.getElementById('AdminPanel').style.display = 'block';
   document.getElementById('chat').innerHTML = '';
   document.getElementById('users').innerText = 'Users: 1';
-  peer = new Peer(newid);
+  peer = new Peer(newid, {
+    config: {
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun2.l.google.com:19302' }
+      ]
+    }
+  });
   id = '';
   clients = [];
   conn = null;
@@ -31,7 +40,7 @@ function createRoom(newid) {
         'Users: ' + (clients.length + 1).toString();
     });
     c.on('data', (dat) => {
-      if (dat.type === 'Message') {
+      if (dat.type === 'Message' || dat.type === 'usernameUpdate') {
         processReq(dat);
         console.log(dat);
         sendToClients(dat);
@@ -51,17 +60,38 @@ function createRoom(newid) {
 createRoom();
 
 function join(id) {
+  // 1. Hide the admin panel since this user is a client
   document.getElementById('AdminPanel').style.display = 'none';
   hosting = false;
+
+  // 2. Cleanly close any existing connection
   if (conn) {
     conn.close();
   }
+
+  // 3. Initiate the new connection
   conn = peer.connect(id);
-  conn.on('data', (dat) => {
-    processReq(dat);
-    console.log(dat);
+
+  // 4. WAIT for the connection to hand-shake successfully
+  conn.on('open', () => {
+    document.getElementById('session').innerText = 'Connected To Host';
+    console.log("Successfully shifted to room: " + id);
+
+    // 5. Securely bind the data listener ONLY after it's open
+    conn.on('data', (dat) => {
+      // (Optional: Keep your security whitelisting here if you want)
+      if (dat.type === 'Message' || dat.type === 'Update' || dat.type === 'Alert') {
+        processReq(dat);
+        console.log(dat);
+      }
+    });
   });
-  document.getElementById('session').innerText = 'Connected To Host';
+
+  // Handle connection errors (like if the room ID doesn't exist)
+  conn.on('error', (err) => {
+    console.error("Connection failed:", err);
+    document.getElementById('session').innerText = 'Connection Failed';
+  });
 }
 
 function send() {
@@ -123,6 +153,12 @@ function processReq(message) {
     msg.style.color = 'red';
     msg.innerText = message.content;
     chatBox.appendChild(msg);
+  } else if (message.type == 'usernameUpdate') {
+    const chatBox = document.getElementById('chat');
+    let msg = document.createElement('p');
+    msg.style.fontSize = '10px';
+    msg.innerText = "(" + message.old + ") changed their name to: (" + message.content + ")";
+    chatBox.appendChild(msg);
   }
   scrollToBottom();
 }
@@ -167,4 +203,14 @@ document.getElementById('msg').addEventListener('keydown', (e) => {
       e.stopImmediatePropagation();
     }
   }
+});
+
+document.getElementById('name').addEventListener('change', (e) => {
+  if (!hosting) {
+    conn.send({"type": "usernameUpdate", "content": e.target.value, "old": username})
+  } else {
+    sendToClients({"type": "usernameUpdate", "content": e.target.value, "old": username})
+    processReq({"type": "usernameUpdate", "content": e.target.value, "old": username})
+  }
+  username = e.target.value
 });
